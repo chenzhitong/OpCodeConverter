@@ -43,20 +43,16 @@ namespace OpCodeConverter
 
                 if (operandSize > 0)
                 {
-                    var operand = input.Take(operandSize).ToArray().ToHexString();
+                    result.Add($"{op.ToString()} {input.Take(operandSize).ToArray().ToHexString()}");
                     input.RemoveRange(0, operandSize);
-
-                    result.Add($"{op.ToString()} {operand}");
                 }
                 if (operandSizePrefix > 0)
                 {
                     var number = (int)new BigInteger(input.Take(operandSizePrefix).ToArray());
                     input.RemoveRange(0, operandSizePrefix);
 
-                    var operand = input.Take(number).ToArray().ToHexString();
+                    result.Add($"{op.ToString()} LENGTH:{number} {input.Take(number).ToArray().ToHexString()}");
                     input.RemoveRange(0, number);
-
-                    result.Add($"{op.ToString()} LENGTH:{number} {operand}");
                 }
             }
             return result;
