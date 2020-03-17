@@ -100,7 +100,7 @@ namespace OpCodeConverter
                     }
                     else
                     {
-                        result.Add($"{op.ToString()} LENGTH:{number} {(number == 20 ? new UInt160(operand).ToString() : operand.ToASCIIString())}");
+                        result.Add($"{op.ToString()} {(number == 20 ? new UInt160(operand).ToString() : operand.ToASCIIString())}");
                     }
                     input.RemoveRange(0, number);
                 }
