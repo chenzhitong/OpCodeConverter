@@ -7,6 +7,7 @@ using System.Text;
 using System.Numerics;
 using System.Reflection;
 using Neo.Wallets;
+using Neo.SmartContract;
 
 namespace OpCodeConverter
 {
@@ -45,11 +46,10 @@ namespace OpCodeConverter
             return output;
         }
 
-        public static List<string> Process(IEnumerable<byte> script, bool raw = true)
+        public static List<string> Process(IEnumerable<byte> script, bool raw = false)
         {
             var OperandSizePrefixTable = new int[256];
             var OperandSizeTable = new int[256];
-
             foreach (FieldInfo field in typeof(OpCode).GetFields(BindingFlags.Public | BindingFlags.Static))
             {
                 var attribute = field.GetCustomAttribute<OperandSizeAttribute>();
@@ -58,6 +58,10 @@ namespace OpCodeConverter
                 OperandSizePrefixTable[index] = attribute.SizePrefix;
                 OperandSizeTable[index] = attribute.Size;
             }
+
+            var dic = new Dictionary<uint, string>();
+            InteropService.SupportedMethods().ToList().ForEach(p => dic.Add(p.Hash, p.Method));
+
             var input = script.ToList();
             var result = new List<string>();
 
@@ -80,6 +84,10 @@ namespace OpCodeConverter
                         if (op.ToString().StartsWith("PUSHINT"))
                         {
                             result.Add($"{op.ToString()} {new BigInteger(operand)}");
+                        }
+                        else if (op == OpCode.SYSCALL)
+                        {
+                            result.Add($"{op.ToString()} {dic[BitConverter.ToUInt32(operand)]}");
                         }
                         else
                         {
