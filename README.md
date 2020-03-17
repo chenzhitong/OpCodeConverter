@@ -2,6 +2,35 @@
 
 OpCode 转换工具
 
+### 示例
+
+------
+
+常见的 invocation
+
+**input:** 
+
+DECKiNs7nm9rKamTRSQpjuRHmmKZlX0n1m89FfDzOvgcQIe7JfMnsg/4Ss1yHVwTxpmDjs1GWRcRyntZ06S81fIF
+
+**output:**
+
+PUSHDATA1 LENGTH:64 8a88db3b9e6f6b29a9934524298ee4479a6299957d27d66f3d15f0f33af81c4087bb25f327b20ff84acd721d5c13c699838ecd46591711ca7b59d3a4bcd5f205
+
+------
+
+常见的 verification
+
+**input:** 
+
+DCEDrHZSlAddpveSfJa/49P2SuNoDF61D4L1UXCp8b6lna0LQQqQatQ=
+
+**output:**
+
+PUSHDATA1 LENGTH:33 03ac765294075da6f7927c96bfe3d3f64ae3680c5eb50f82f55170a9f1bea59dad
+SYSCALL 0a906ad4
+
+------
+
 NEO 转账的 Scripts
 
 **input:** 
