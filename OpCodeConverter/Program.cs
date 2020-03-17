@@ -16,23 +16,23 @@ namespace OpCodeConverter
         static void Main(string[] args)
         {
             var script = "DECKiNs7nm9rKamTRSQpjuRHmmKZlX0n1m89FfDzOvgcQIe7JfMnsg/4Ss1yHVwTxpmDjs1GWRcRyntZ06S81fIF";
-            Process(Convert.FromBase64String(script)).ForEach(p => Console.WriteLine(p));
+            Analysis(script).ForEach(p => Console.WriteLine(p));
             Console.WriteLine();
 
             script = "DCEDrHZSlAddpveSfJa/49P2SuNoDF61D4L1UXCp8b6lna0LQQqQatQ=";
-            Process(Convert.FromBase64String(script)).ForEach(p => Console.WriteLine(p));
+            Analysis(script).ForEach(p => Console.WriteLine(p));
             Console.WriteLine();
 
             script = "AgDh9QUMFHuv2LNVxgojhF87HIzMuK8GKakRDBTUzRIZzo4XK1AnOCPXmaNl+raw5BPADAh0cmFuc2ZlcgwU+fgUl8P5tiupP3PHEdQbHu/1DCNBYn1bUjk=";
-            Process(Convert.FromBase64String(script)).ForEach(p => Console.WriteLine(p));
+            Analysis(script).ForEach(p => Console.WriteLine(p));
             Console.WriteLine();
 
             script = "AwDyBSoBAAAADBTUzRIZzo4XK1AnOCPXmaNl+raw5AwU1M0SGc6OFytQJzgj15mjZfq2sOQTwAwIdHJhbnNmZXIMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I5";
-            Process(Convert.FromBase64String(script)).ForEach(p => Console.WriteLine(p));
+            Analysis(script).ForEach(p => Console.WriteLine(p));
             Console.WriteLine();
 
             script = "EMAMBG5hbWUMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I=";
-            Process(Convert.FromBase64String(script)).ForEach(p => Console.WriteLine(p));
+            Analysis(script).ForEach(p => Console.WriteLine(p));
             Console.WriteLine();
 
 
@@ -45,9 +45,14 @@ namespace OpCodeConverter
             if (output.Any(p => p < '0' || p > 'z')) return byteArray.ToHexString();
             return output;
         }
-
-        public static List<string> Process(IEnumerable<byte> script, bool raw = false)
+        public static List<string> Analysis(string base64, bool raw = false)
         {
+            return Analysis(Convert.FromBase64String(base64).ToList(), raw);
+        }
+
+        public static List<string> Analysis(List<byte> scripts, bool raw)
+        {
+            //初始化所有 OpCode
             var OperandSizePrefixTable = new int[256];
             var OperandSizeTable = new int[256];
             foreach (FieldInfo field in typeof(OpCode).GetFields(BindingFlags.Public | BindingFlags.Static))
@@ -58,59 +63,44 @@ namespace OpCodeConverter
                 OperandSizePrefixTable[index] = attribute.SizePrefix;
                 OperandSizeTable[index] = attribute.Size;
             }
-
+            //初始化所有 InteropService
             var dic = new Dictionary<uint, string>();
             InteropService.SupportedMethods().ToList().ForEach(p => dic.Add(p.Hash, p.Method));
 
-            var input = script.ToList();
+            //解析 Scripts
             var result = new List<string>();
-
-            while (input.Count > 0)
+            while (scripts.Count > 0)
             {
-                var op = (OpCode)input[0];
-                var operandSizePrefix = OperandSizePrefixTable[input[0]];
-                var operandSize = OperandSizeTable[input[0]];
-                input.RemoveAt(0);
+                var op = (OpCode)scripts[0];
+                var operandSizePrefix = OperandSizePrefixTable[scripts[0]];
+                var operandSize = OperandSizeTable[scripts[0]];
+                scripts.RemoveAt(0);
 
                 if (operandSize > 0)
                 {
-                    var operand = input.Take(operandSize).ToArray();
-                    if (raw)
+                    var operand = scripts.Take(operandSize).ToArray();
+                    if (op.ToString().StartsWith("PUSHINT"))
+                    {
+                        result.Add(raw ? $"{op.ToString()} {operand.ToHexString()}" : $"{op.ToString()} {new BigInteger(operand)}");
+                    }
+                    else if (op == OpCode.SYSCALL)
+                    {
+                        result.Add(raw ? $"{op.ToString()} {operand.ToHexString()}" : $"{op.ToString()} {dic[BitConverter.ToUInt32(operand)]}");
+                    }
+                    else
                     {
                         result.Add($"{op.ToString()} {operand.ToHexString()}");
                     }
-                    else
-                    {
-                        if (op.ToString().StartsWith("PUSHINT"))
-                        {
-                            result.Add($"{op.ToString()} {new BigInteger(operand)}");
-                        }
-                        else if (op == OpCode.SYSCALL)
-                        {
-                            result.Add($"{op.ToString()} {dic[BitConverter.ToUInt32(operand)]}");
-                        }
-                        else
-                        {
-                            result.Add($"{op.ToString()} {operand.ToHexString()}");
-                        }
-                    }
-                    input.RemoveRange(0, operandSize);
+                    scripts.RemoveRange(0, operandSize);
                 }
                 if (operandSizePrefix > 0)
                 {
-                    var number = (int)new BigInteger(input.Take(operandSizePrefix).ToArray());
-                    input.RemoveRange(0, operandSizePrefix);
-                    var operand = input.Take(number).ToArray();
+                    var number = (int)new BigInteger(scripts.Take(operandSizePrefix).ToArray());
+                    scripts.RemoveRange(0, operandSizePrefix);
+                    var operand = scripts.Take(number).ToArray();
 
-                    if (raw)
-                    {
-                        result.Add($"{op.ToString()} LENGTH:{number} {operand.ToHexString()}");
-                    }
-                    else
-                    {
-                        result.Add($"{op.ToString()} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
-                    }
-                    input.RemoveRange(0, number);
+                    result.Add(raw ? $"{op.ToString()} LENGTH:{number} {operand.ToHexString()}" : $"{op.ToString()} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
+                    scripts.RemoveRange(0, number);
                 }
             }
             return result;
