@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="Neo" Version="3.0.0-CI00862" />
-    <PackageReference Include="Neo.VM" Version="3.0.0-CI00209" />
   </ItemGroup>
 
 </Project>
