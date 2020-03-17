@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 using System.Reflection;
-using Neo.Wallets;
 using Neo.SmartContract;
 
 namespace OpCodeConverter
