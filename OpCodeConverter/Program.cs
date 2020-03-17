@@ -38,7 +38,7 @@ namespace OpCodeConverter
             Console.ReadLine();
         }
 
-        public static string ToASCIIString(this byte[] byteArray)
+        public static string ToAsciiString(this byte[] byteArray)
         {
             var output = Encoding.Default.GetString(byteArray);
             if (output.Any(p => p < '0' || p > 'z')) return byteArray.ToHexString();
@@ -100,7 +100,7 @@ namespace OpCodeConverter
                     }
                     else
                     {
-                        result.Add($"{op.ToString()} {(number == 20 ? new UInt160(operand).ToString() : operand.ToASCIIString())}");
+                        result.Add($"{op.ToString()} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
                     }
                     input.RemoveRange(0, number);
                 }
