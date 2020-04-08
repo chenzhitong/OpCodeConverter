@@ -10,30 +10,12 @@ using Neo.SmartContract;
 
 namespace OpCodeConverter
 {
-    static class Program
+    public static class Program
     {
         static void Main(string[] args)
         {
-            var script = "DECKiNs7nm9rKamTRSQpjuRHmmKZlX0n1m89FfDzOvgcQIe7JfMnsg/4Ss1yHVwTxpmDjs1GWRcRyntZ06S81fIF";
+            var script = "AgDh9QUMFHuv2LNVxgojhF87HIzMuK8GKakRDBTUzRIZzo4XK1AnOCPXmaNl+raw5BPADAh0cmFuc2ZlcgwU+fgUl8P5tiupP3PHEdQbHu/1DCNBYn1bUjk=";
             Analysis(script).ForEach(p => Console.WriteLine(p));
-            Console.WriteLine();
-
-            script = "DCEDrHZSlAddpveSfJa/49P2SuNoDF61D4L1UXCp8b6lna0LQQqQatQ=";
-            Analysis(script).ForEach(p => Console.WriteLine(p));
-            Console.WriteLine();
-
-            script = "AgDh9QUMFHuv2LNVxgojhF87HIzMuK8GKakRDBTUzRIZzo4XK1AnOCPXmaNl+raw5BPADAh0cmFuc2ZlcgwU+fgUl8P5tiupP3PHEdQbHu/1DCNBYn1bUjk=";
-            Analysis(script).ForEach(p => Console.WriteLine(p));
-            Console.WriteLine();
-
-            script = "AwDyBSoBAAAADBTUzRIZzo4XK1AnOCPXmaNl+raw5AwU1M0SGc6OFytQJzgj15mjZfq2sOQTwAwIdHJhbnNmZXIMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I5";
-            Analysis(script).ForEach(p => Console.WriteLine(p));
-            Console.WriteLine();
-
-            script = "EMAMBG5hbWUMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I=";
-            Analysis(script).ForEach(p => Console.WriteLine(p));
-            Console.WriteLine();
-
 
             Console.ReadLine();
         }
@@ -80,25 +62,26 @@ namespace OpCodeConverter
                     var operand = scripts.Take(operandSize).ToArray();
                     if (op.ToString().StartsWith("PUSHINT"))
                     {
-                        result.Add(raw ? $"{op.ToString()} {operand.ToHexString()}" : $"{op.ToString()} {new BigInteger(operand)}");
+                        result.Add(raw ? $"{op} {operand.ToHexString()}" : $"{op} {new BigInteger(operand)}");
                     }
                     else if (op == OpCode.SYSCALL)
                     {
-                        result.Add(raw ? $"{op.ToString()} {operand.ToHexString()}" : $"{op.ToString()} {dic[BitConverter.ToUInt32(operand)]}");
+                        result.Add(raw ? $"{op} {operand.ToHexString()}" : $"{op} {dic[BitConverter.ToUInt32(operand)]}");
                     }
                     else
                     {
-                        result.Add($"{op.ToString()} {operand.ToHexString()}");
+                        result.Add($"{op} {operand.ToHexString()}");
                     }
                     scripts.RemoveRange(0, operandSize);
                 }
                 if (operandSizePrefix > 0)
                 {
-                    var number = (int)new BigInteger(scripts.Take(operandSizePrefix).ToArray());
+                    var bytes = scripts.Take(operandSizePrefix).ToArray();
+                    var number = bytes.Length == 1 ? bytes[0] : (int)new BigInteger(bytes);
                     scripts.RemoveRange(0, operandSizePrefix);
                     var operand = scripts.Take(number).ToArray();
 
-                    result.Add(raw ? $"{op.ToString()} LENGTH:{number} {operand.ToHexString()}" : $"{op.ToString()} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
+                    result.Add(raw ? $"{op} LENGTH:{number} {operand.ToHexString()}" : $"{op} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
                     scripts.RemoveRange(0, number);
                 }
             }
