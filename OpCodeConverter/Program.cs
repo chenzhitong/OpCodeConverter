@@ -14,6 +14,7 @@ namespace OpCodeConverter
     {
         static void Main(string[] args)
         {
+            //交易的 script 字段，或者 witness.invocation、witnesses.verification 字段，Base64 编码
             var script = "AgDh9QUMFHuv2LNVxgojhF87HIzMuK8GKakRDBTUzRIZzo4XK1AnOCPXmaNl+raw5BPADAh0cmFuc2ZlcgwU+fgUl8P5tiupP3PHEdQbHu/1DCNBYn1bUjk=";
             Analysis(script).ForEach(p => Console.WriteLine(p));
 
