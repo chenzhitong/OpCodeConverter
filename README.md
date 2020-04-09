@@ -1,6 +1,8 @@
 # OpCodeConverter
 
-OpCode 转换工具
+Neo3 的 OpCode 转换工具，可以将交易中的 Script 转换为易读易懂的 OpCode，支持交易的 script 字段，或者 witness.invocation、witnesses.verification 字段。
+
+输入为 Base64 编码的 script，输出为 List\<string\>  格式的 OpCode 列表。
 
 ### 示例
 
