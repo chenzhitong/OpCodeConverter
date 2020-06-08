@@ -14,10 +14,10 @@ namespace OpCodeConverter.Test
         public void TestMethod1()
         {
             //常见的 invocation
-            var script = "DECKiNs7nm9rKamTRSQpjuRHmmKZlX0n1m89FfDzOvgcQIe7JfMnsg/4Ss1yHVwTxpmDjs1GWRcRyntZ06S81fIF";
+            var script = "DEA5gbDAJXc7I3erY9MDBxQF0eX36LrvukMNg5EHVpqbJvG1EI+YRno6p8YNTLJEpYBl/NgWnkIOueOP85mRV1sj";
             var result = "";
             Program.Analysis(script).ForEach(p => result += p + "\r\n");
-            Assert.AreEqual(result, "PUSHDATA1 8a88db3b9e6f6b29a9934524298ee4479a6299957d27d66f3d15f0f33af81c4087bb25f327b20ff84acd721d5c13c699838ecd46591711ca7b59d3a4bcd5f205\r\n");
+            Assert.AreEqual(result, "PUSHDATA1 3981b0c025773b2377ab63d303071405d1e5f7e8baefba430d839107569a9b26f1b5108f98467a3aa7c60d4cb244a58065fcd8169e420eb9e38ff39991575b23\r\n");
         }
 
         [TestMethod]
@@ -34,14 +34,36 @@ namespace OpCodeConverter.Test
         public void TestMethod3()
         {
             //NEO 转账的 Scripts
-            var script = "AgDh9QUMFHuv2LNVxgojhF87HIzMuK8GKakRDBTUzRIZzo4XK1AnOCPXmaNl+raw5BPADAh0cmFuc2ZlcgwU+fgUl8P5tiupP3PHEdQbHu/1DCNBYn1bUjk=";
+            var script = "EQwUvQMah0TTRtYWcYFgFy9jaOAX3AUMFL0DGodE00bWFnGBYBcvY2jgF9wFE8AMCHRyYW5zZmVyDBQlBZ7LSHjTqHX5HFHO3tMw1Fdf3kFifVtSOA==";
             var result = "";
             Program.Analysis(script).ForEach(p => result += p + "\r\n");
-            Assert.AreEqual(result, "PUSHINT32 100000000\r\nPUSHDATA1 0x11a92906afb8cc8c1c3b5f84230ac655b3d8af7b\r\nPUSHDATA1 0xe4b0b6fa65a399d7233827502b178ece1912cdd4\r\nPUSHDATA1 transfer\r\nPUSHDATA1 0x230cf5ef1e1bd411c7733fa92bb6f9c39714f8f9\r\nSYSCALL System.Contract.Call\r\n");
+            Assert.AreEqual(result, "PUSHDATA1 0x05dc17e068632f1760817116d646d344871a03bd\r\nPUSHDATA1 0x05dc17e068632f1760817116d646d344871a03bd\r\nPUSHDATA1 transfer\r\nPUSHDATA1 0xde5f57d430d3dece511cf975a8d37848cb9e0525\r\nSYSCALL System.Contract.Call\r\n");
         }
 
         [TestMethod]
         public void TestMethod4()
+        {
+            //NEO 转账的 Scripts
+            var script = "AGQMFL0DGodE00bWFnGBYBcvY2jgF9wFDBS9AxqHRNNG1hZxgWAXL2No4BfcBRPADAh0cmFuc2ZlcgwUJQWey0h406h1+RxRzt7TMNRXX95BYn1bUjg=";
+            var result = "";
+            Program.Analysis(script).ForEach(p => result += p + "\r\n");
+            Assert.AreEqual(result, "PUSHINT8 100\r\nPUSHDATA1 0x05dc17e068632f1760817116d646d344871a03bd\r\nPUSHDATA1 0x05dc17e068632f1760817116d646d344871a03bd\r\nPUSHDATA1 transfer\r\nPUSHDATA1 0xde5f57d430d3dece511cf975a8d37848cb9e0525\r\nSYSCALL System.Contract.Call\r\n");
+
+        }
+
+        [TestMethod]
+        public void TestMethod5()
+        {
+            //GAS 转账的 Scripts
+            var script = "AwDkC1QCAAAADBS9AxqHRNNG1hZxgWAXL2No4BfcBQwUgUkpDXgVmkkrRX4lahSzu86gNiATwAwIdHJhbnNmZXIMFLyvQdaEx9StbuDZnalwe50fDI5mQWJ9W1I4";
+            var result = "";
+            Program.Analysis(script).ForEach(p => result += p + "\r\n");
+            Assert.AreEqual(result, "PUSHINT8 100\r\nPUSHDATA1 0x05dc17e068632f1760817116d646d344871a03bd\r\nPUSHDATA1 0x05dc17e068632f1760817116d646d344871a03bd\r\nPUSHDATA1 transfer\r\nPUSHDATA1 0xde5f57d430d3dece511cf975a8d37848cb9e0525\r\nSYSCALL System.Contract.Call\r\n");
+
+        }
+
+        [TestMethod]
+        public void TestMethod6()
         {
             //NEP-5 转账的 Scripts
             var script = "AwDyBSoBAAAADBTUzRIZzo4XK1AnOCPXmaNl+raw5AwU1M0SGc6OFytQJzgj15mjZfq2sOQTwAwIdHJhbnNmZXIMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I5";
@@ -52,7 +74,7 @@ namespace OpCodeConverter.Test
         }
 
         [TestMethod]
-        public void TestMethod5()
+        public void TestMethod7()
         {
             //调用 NEP-5 "name" 方法的 Scripts
             var script = "EMAMBG5hbWUMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I=";
@@ -62,7 +84,7 @@ namespace OpCodeConverter.Test
         }
 
         [TestMethod]
-        public void TestMethod6()
+        public void TestMethod8()
         {
             //部署简单合约的 Scripts
             var script = "DW0BeyJncm91cHMiOltdLCJmZWF0dXJlcyI6eyJzdG9yYWdlIjp0cnVlLCJwYXlhYmxlIjpmYWxzZX0sImFiaSI6eyJoYXNoIjoiMHgxMzhhN2M0NTNlZTRhNDk1NzJhNDUzOTAxNDE1ZGNhNThmYTQ5MGRjIiwiZW50cnlQb2ludCI6eyJuYW1lIjoibWFpbiIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJtZXRob2QiLCJ0eXBlIjoiU3RyaW5nIn0seyJuYW1lIjoiYXJncyIsInR5cGUiOiJBcnJheSJ9XSwicmV0dXJuVHlwZSI6IkJ5dGVBcnJheSJ9LCJtZXRob2RzIjpbXSwiZXZlbnRzIjpbXX0sInBlcm1pc3Npb25zIjpbeyJjb250cmFjdCI6IioiLCJtZXRob2RzIjoiKiJ9XSwidHJ1c3RzIjpbXSwic2FmZU1ldGhvZHMiOltdLCJleHRyYSI6bnVsbH0MCVcBAhFwIgJoQEHONSyF";
@@ -72,7 +94,7 @@ namespace OpCodeConverter.Test
         }
 
         [TestMethod]
-        public void TestMethod7()
+        public void TestMethod9()
         {
             //部署 NEP-5 合约的 Scripts
             var script = "DfACeyJncm91cHMiOltdLCJmZWF0dXJlcyI6eyJzdG9yYWdlIjp0cnVlLCJwYXlhYmxlIjpmYWxzZX0sImFiaSI6eyJoYXNoIjoiMHhjZTdkYzY3MTIwMzM5ZDk5NTM1YTdhZmUxYjNiYWQ4OGE2YjFmNmEwIiwiZW50cnlQb2ludCI6eyJuYW1lIjoibWFpbiIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJtZXRob2QiLCJ0eXBlIjoiU3RyaW5nIn0seyJuYW1lIjoiYXJncyIsInR5cGUiOiJBcnJheSJ9XSwicmV0dXJuVHlwZSI6IkJ5dGVBcnJheSJ9LCJtZXRob2RzIjpbeyJuYW1lIjoicHV0IiwicGFyYW1ldGVycyI6W3sibmFtZSI6Im1lc3NhZ2UiLCJ0eXBlIjoiU3RyaW5nIn1dLCJyZXR1cm5UeXBlIjoiQm9vbGVhbiJ9LHsibmFtZSI6ImdldCIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJtZXNzYWdlIiwidHlwZSI6IlN0cmluZyJ9XSwicmV0dXJuVHlwZSI6IkludGVnZXIifSx7Im5hbWUiOiJleGlzdHMiLCJwYXJhbWV0ZXJzIjpbeyJuYW1lIjoibWVzc2FnZSIsInR5cGUiOiJTdHJpbmcifV0sInJldHVyblR5cGUiOiJCb29sZWFuIn1dLCJldmVudHMiOlt7Im5hbWUiOiJzYXZlZCIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJhcmcxIiwidHlwZSI6IlN0cmluZyJ9LHsibmFtZSI6ImFyZzIiLCJ0eXBlIjoiSW50ZWdlciJ9XSwicmV0dXJuVHlwZSI6IlNpZ25hdHVyZSJ9XX0sInBlcm1pc3Npb25zIjpbeyJjb250cmFjdCI6IioiLCJtZXRob2RzIjoiKiJ9XSwidHJ1c3RzIjpbXSwic2FmZU1ldGhvZHMiOltdLCJleHRyYSI6bnVsbH0M31cEAhxwQel9OKAMAUCzcWkmSHgmPXgMA3B1dJckGXgMA2dldJckGHgMBmV4aXN0c5ckFCIdeRDONCZyIhl5EM40V3IiEXkQzjVxAAAAciIGEXIiAmpzIgYRcyICa0BXAwF4NFdxaSYGEHIiKyFBfvVyH3B4aFBBm/ZnzkHmPxiEeGhQDAVzYXZlZBPAQZUBb2ERciICakBXAgF4NB4Qs3BoJgYPcSISeEGb9mfOQZJd6DE0HHEiAmlAVwEBeEGb9mfOQZJd6DHYqnAiAmhAVwEBeCQFECIFeBCecCICaEBBzjUshQ==";
