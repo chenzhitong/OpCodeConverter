@@ -17,7 +17,6 @@ namespace OpCodeConverter
             //交易的 script 字段，或者 witness.invocation、witnesses.verification 字段，Base64 编码
             var script = "AgDh9QUMFHuv2LNVxgojhF87HIzMuK8GKakRDBTUzRIZzo4XK1AnOCPXmaNl+raw5BPADAh0cmFuc2ZlcgwU+fgUl8P5tiupP3PHEdQbHu/1DCNBYn1bUjk=";
             Analysis(script).ForEach(p => Console.WriteLine(p));
-
             Console.ReadLine();
         }
 
@@ -27,12 +26,12 @@ namespace OpCodeConverter
             if (output.Any(p => p < '0' || p > 'z')) return byteArray.ToHexString();
             return output;
         }
-        public static List<string> Analysis(string base64, bool raw = false)
+        public static List<string> Analysis(string base64)
         {
-            return Analysis(Convert.FromBase64String(base64).ToList(), raw);
+            return Analysis(Convert.FromBase64String(base64).ToList());
         }
 
-        public static List<string> Analysis(List<byte> scripts, bool raw)
+        public static List<string> Analysis(List<byte> scripts)
         {
             //初始化所有 OpCode
             var OperandSizePrefixTable = new int[256];
@@ -47,7 +46,7 @@ namespace OpCodeConverter
             }
             //初始化所有 InteropService
             var dic = new Dictionary<uint, string>();
-            InteropService.SupportedMethods().ToList().ForEach(p => dic.Add(p.Hash, p.Method));
+            ApplicationEngine.Services.ToList().ForEach(p => dic.Add(p.Hash, p.Name));
 
             //解析 Scripts
             var result = new List<string>();
@@ -63,11 +62,11 @@ namespace OpCodeConverter
                     var operand = scripts.Take(operandSize).ToArray();
                     if (op.ToString().StartsWith("PUSHINT"))
                     {
-                        result.Add(raw ? $"{op} {operand.ToHexString()}" : $"{op} {new BigInteger(operand)}");
+                        result.Add($"{op} {new BigInteger(operand)}");
                     }
                     else if (op == OpCode.SYSCALL)
                     {
-                        result.Add(raw ? $"{op} {operand.ToHexString()}" : $"{op} {dic[BitConverter.ToUInt32(operand)]}");
+                        result.Add($"{op} {dic[BitConverter.ToUInt32(operand)]}");
                     }
                     else
                     {
@@ -82,7 +81,7 @@ namespace OpCodeConverter
                     scripts.RemoveRange(0, operandSizePrefix);
                     var operand = scripts.Take(number).ToArray();
 
-                    result.Add(raw ? $"{op} LENGTH:{number} {operand.ToHexString()}" : $"{op} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
+                    result.Add($"{op} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
                     scripts.RemoveRange(0, number);
                 }
             }
