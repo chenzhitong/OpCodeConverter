@@ -16,23 +16,22 @@ namespace OpCodeConverter
         {
             //交易的 script 字段，或者 witness.invocation、witnesses.verification 字段，Base64 编码
             var script = "AgDh9QUMFHuv2LNVxgojhF87HIzMuK8GKakRDBTUzRIZzo4XK1AnOCPXmaNl+raw5BPADAh0cmFuc2ZlcgwU+fgUl8P5tiupP3PHEdQbHu/1DCNBYn1bUjk=";
-            Analysis(script).ForEach(p => Console.WriteLine(p));
+            ScriptsToOpCode(script).ForEach(p => Console.WriteLine(p));
             Console.ReadLine();
         }
 
-        public static string ToAsciiString(this byte[] byteArray)
+        public static List<string> ScriptsToOpCode(string base64)
         {
-            var output = Encoding.Default.GetString(byteArray);
-            if (output.Any(p => p < '0' || p > 'z')) return byteArray.ToHexString();
-            return output;
-        }
-        public static List<string> Analysis(string base64)
-        {
-            return Analysis(Convert.FromBase64String(base64).ToList());
-        }
+            List<byte> scripts;
+            try
+            {
+                scripts = Convert.FromBase64String(base64).ToList();
+            }
+            catch (Exception)
+            {
+                throw new FormatException();
+            }
 
-        public static List<string> Analysis(List<byte> scripts)
-        {
             //初始化所有 OpCode
             var OperandSizePrefixTable = new int[256];
             var OperandSizeTable = new int[256];
@@ -81,7 +80,10 @@ namespace OpCodeConverter
                     scripts.RemoveRange(0, operandSizePrefix);
                     var operand = scripts.Take(number).ToArray();
 
-                    result.Add($"{op} {(number == 20 ? new UInt160(operand).ToString() : operand.ToAsciiString())}");
+                    var asicii = Encoding.Default.GetString(operand);
+                    asicii = asicii.Any(p => p < '0' || p > 'z') ? operand.ToHexString() : asicii;
+
+                    result.Add($"{op} {(number == 20 ? new UInt160(operand).ToString() : asicii)}");
                     scripts.RemoveRange(0, number);
                 }
             }
