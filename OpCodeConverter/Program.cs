@@ -87,7 +87,7 @@ namespace OpCodeConverter
                     scripts.RemoveRange(0, number);
                 }
             }
-            return result;
+            return result.ToArray().Reverse().ToList();
         }
     }
 }
