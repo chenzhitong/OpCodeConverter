@@ -13,7 +13,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod1()
         {
-            //³£¼ûµÄ invocation
+            //å¸¸è§çš„ invocation
             var script = "DEA5gbDAJXc7I3erY9MDBxQF0eX36LrvukMNg5EHVpqbJvG1EI+YRno6p8YNTLJEpYBl/NgWnkIOueOP85mRV1sj";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -23,7 +23,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod2()
         {
-            //³£¼ûµÄ verification
+            //å¸¸è§çš„ verification
             var script = "EQwhA9q4TBJD7AGrJQDhqMehVGom1zRigYCwz2TnK/d2U2mXEQtBE43vrw==";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -33,7 +33,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod3()
         {
-            //NEO ×ªÕËµÄ Scripts
+            //NEO è½¬è´¦çš„ Scripts
             var script = "EQwUvQMah0TTRtYWcYFgFy9jaOAX3AUMFL0DGodE00bWFnGBYBcvY2jgF9wFE8AMCHRyYW5zZmVyDBQlBZ7LSHjTqHX5HFHO3tMw1Fdf3kFifVtSOA==";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -43,7 +43,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod4()
         {
-            //NEO ×ªÕËµÄ Scripts
+            //NEO è½¬è´¦çš„ Scripts
             var script = "AGQMFL0DGodE00bWFnGBYBcvY2jgF9wFDBS9AxqHRNNG1hZxgWAXL2No4BfcBRPADAh0cmFuc2ZlcgwUJQWey0h406h1+RxRzt7TMNRXX95BYn1bUjg=";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -54,7 +54,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod5()
         {
-            //GAS ×ªÕËµÄ Scripts
+            //GAS è½¬è´¦çš„ Scripts
             var script = "AwDkC1QCAAAADBS9AxqHRNNG1hZxgWAXL2No4BfcBQwUgUkpDXgVmkkrRX4lahSzu86gNiATwAwIdHJhbnNmZXIMFLyvQdaEx9StbuDZnalwe50fDI5mQWJ9W1I4";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -65,7 +65,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod6()
         {
-            //NEP-5 ×ªÕËµÄ Scripts
+            //NEP-5 è½¬è´¦çš„ Scripts
             var script = "AwDyBSoBAAAADBTUzRIZzo4XK1AnOCPXmaNl+raw5AwU1M0SGc6OFytQJzgj15mjZfq2sOQTwAwIdHJhbnNmZXIMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I5";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -75,7 +75,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod7()
         {
-            //µ÷ÓÃ NEP-5 "name" ·½·¨µÄ Scripts
+            //è°ƒç”¨ NEP-5 "name" æ–¹æ³•çš„ Scripts
             var script = "EMAMBG5hbWUMFPn4FJfD+bYrqT9zxxHUGx7v9QwjQWJ9W1I=";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -85,7 +85,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod8()
         {
-            //²¿Êğ¼òµ¥ºÏÔ¼µÄ Scripts
+            //éƒ¨ç½²ç®€å•åˆçº¦çš„ Scripts
             var script = "DW0BeyJncm91cHMiOltdLCJmZWF0dXJlcyI6eyJzdG9yYWdlIjp0cnVlLCJwYXlhYmxlIjpmYWxzZX0sImFiaSI6eyJoYXNoIjoiMHgxMzhhN2M0NTNlZTRhNDk1NzJhNDUzOTAxNDE1ZGNhNThmYTQ5MGRjIiwiZW50cnlQb2ludCI6eyJuYW1lIjoibWFpbiIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJtZXRob2QiLCJ0eXBlIjoiU3RyaW5nIn0seyJuYW1lIjoiYXJncyIsInR5cGUiOiJBcnJheSJ9XSwicmV0dXJuVHlwZSI6IkJ5dGVBcnJheSJ9LCJtZXRob2RzIjpbXSwiZXZlbnRzIjpbXX0sInBlcm1pc3Npb25zIjpbeyJjb250cmFjdCI6IioiLCJtZXRob2RzIjoiKiJ9XSwidHJ1c3RzIjpbXSwic2FmZU1ldGhvZHMiOltdLCJleHRyYSI6bnVsbH0MCVcBAhFwIgJoQEHONSyF";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
@@ -95,7 +95,7 @@ namespace OpCodeConverter.Test
         [TestMethod]
         public void TestMethod9()
         {
-            //²¿Êğ NEP-5 ºÏÔ¼µÄ Scripts
+            //éƒ¨ç½² NEP-5 åˆçº¦çš„ Scripts
             var script = "DfACeyJncm91cHMiOltdLCJmZWF0dXJlcyI6eyJzdG9yYWdlIjp0cnVlLCJwYXlhYmxlIjpmYWxzZX0sImFiaSI6eyJoYXNoIjoiMHhjZTdkYzY3MTIwMzM5ZDk5NTM1YTdhZmUxYjNiYWQ4OGE2YjFmNmEwIiwiZW50cnlQb2ludCI6eyJuYW1lIjoibWFpbiIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJtZXRob2QiLCJ0eXBlIjoiU3RyaW5nIn0seyJuYW1lIjoiYXJncyIsInR5cGUiOiJBcnJheSJ9XSwicmV0dXJuVHlwZSI6IkJ5dGVBcnJheSJ9LCJtZXRob2RzIjpbeyJuYW1lIjoicHV0IiwicGFyYW1ldGVycyI6W3sibmFtZSI6Im1lc3NhZ2UiLCJ0eXBlIjoiU3RyaW5nIn1dLCJyZXR1cm5UeXBlIjoiQm9vbGVhbiJ9LHsibmFtZSI6ImdldCIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJtZXNzYWdlIiwidHlwZSI6IlN0cmluZyJ9XSwicmV0dXJuVHlwZSI6IkludGVnZXIifSx7Im5hbWUiOiJleGlzdHMiLCJwYXJhbWV0ZXJzIjpbeyJuYW1lIjoibWVzc2FnZSIsInR5cGUiOiJTdHJpbmcifV0sInJldHVyblR5cGUiOiJCb29sZWFuIn1dLCJldmVudHMiOlt7Im5hbWUiOiJzYXZlZCIsInBhcmFtZXRlcnMiOlt7Im5hbWUiOiJhcmcxIiwidHlwZSI6IlN0cmluZyJ9LHsibmFtZSI6ImFyZzIiLCJ0eXBlIjoiSW50ZWdlciJ9XSwicmV0dXJuVHlwZSI6IlNpZ25hdHVyZSJ9XX0sInBlcm1pc3Npb25zIjpbeyJjb250cmFjdCI6IioiLCJtZXRob2RzIjoiKiJ9XSwidHJ1c3RzIjpbXSwic2FmZU1ldGhvZHMiOltdLCJleHRyYSI6bnVsbH0M31cEAhxwQel9OKAMAUCzcWkmSHgmPXgMA3B1dJckGXgMA2dldJckGHgMBmV4aXN0c5ckFCIdeRDONCZyIhl5EM40V3IiEXkQzjVxAAAAciIGEXIiAmpzIgYRcyICa0BXAwF4NFdxaSYGEHIiKyFBfvVyH3B4aFBBm/ZnzkHmPxiEeGhQDAVzYXZlZBPAQZUBb2ERciICakBXAgF4NB4Qs3BoJgYPcSISeEGb9mfOQZJd6DE0HHEiAmlAVwEBeEGb9mfOQZJd6DHYqnAiAmhAVwEBeCQFECIFeBCecCICaEBBzjUshQ==";
             var result = "";
             Program.ScriptsToOpCode(script).ForEach(p => result += p + "\r\n");
